@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX & JSON</title>
+    <!-- APLICTION OF CSS -->
+    <style>
+        /*BACKGROUND STYLING*/
+        body{
+            /*background-image: linear-gradient(to left, #E20048 , #880E01);*/
+            background-color: #009D91;
+        }
+        /*DISPLAYING CONTENT IN CENTER*/
+        div{
+            display: flex;
+            justify-content: center;
+            color: white;
+        }
+        /*CSS ON BUTTON*/
+        button{
+            width: 50%;
+            height: 50px;
+            background-color:#AD123A;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+             }
+        button:hover{background-color: #EC3E6F;}
+        ul{
+            list-style-type:none;
+        }
+        #dis{text-align: center;}
+    </style>
+    <!-- CSS STYLING OVER-->
+</head>
+<body>
+    <div><h1>EMPLOYEES DATA</h1></div>
+    <div class="dis">
+    <button id="btn" class="hide">SHOW DATA</button>
+    </div>
+    <div>
+    <ul id="ourlist"><li id="nm"></li></ul>
+    <ul id="ourusers"><li id="unm"></li></ul>
+    <ul id="ouremail"><li id="enm"></li></ul>
+    </div>
+    <div id="DISCRIPTION"></div>
+    <!-- APPLICATION OF JAVA SCRIPT -->
+    <script>
+        //USING REQUEST TO USE SERVER DATA
+        var ourRequest = new XMLHttpRequest();
+        //CALLING ELEMENTS BY ID
+        var btn = document.getElementById("btn");
+        var ourList = document.getElementById("ourlist");
+        var ourUsers = document.getElementById("ourusers");
+        var ourEmail = document.getElementById("ouremail");
+        var n = 5;
+        var i =0 ;
+        //EVENT APPLICTION OF ONCLICK
+        btn.addEventListener("click",function()
+        {
+            document.getElementById("nm").innerHTML = "NAME"
+            document.getElementById("unm").innerHTML = "USERNAME"
+            document.getElementById("enm").innerHTML = "EMAIL"
+            document.getElementById("DISCRIPTION").innerHTML = "<br><br><h3>THE ALL ABOVE LISTED EMPLOYEES ARE MEMBER OF TOP MANAGEMENT</h3>"
+            ourRequest.open('GET', 'https://jsonplaceholder.typicode.com/users');
+            ourRequest.onload = function()
+            {
+            var ourData = JSON.parse(ourRequest.responseText);
+            show(ourData);
+            };
+            ourRequest.send();
+        });
+        //SHOW FUNTION TO SHOW DATA ON THE PAGE
+        function show(data)
+        {
+            var nameelement = "";
+            var userelement = "";
+            var emailelement = "";
+            for( i;i<n;i++)
+            {
+                nameelement += `<p> My name is ${data[i].name}</p>`;
+                userelement += `<p> My username is ${data[i].username}</p>`;
+                emailelement += `<p> My email is ${data[i].email}</p>`;
+                if (i==9) {document.getElementById("btn").style.display="none";}
+            };
+            i =5;
+            n =10;
+            ourList.insertAdjacentHTML("beforeend",nameelement);
+            ourUsers.insertAdjacentHTML("beforeend",userelement);
+            ourEmail.insertAdjacentHTML("beforeend",emailelement);
+        };               
+    </script>
+    <!-- JAVA SCRIPT OVER HERE-->
+</body>
+</html>
